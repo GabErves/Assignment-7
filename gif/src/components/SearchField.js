@@ -9,8 +9,12 @@ const SearchField = () => (
         id = "header-search"
         placeholder ="search gifs"
         name ="s"/>
+
+
         
-        <button type ="submit">Search here!</button>
+        <button type ="submit" >Search trending here!</button>
+        <button type ="submit" >Search random here!</button>
+        <button type ="submit" >Regular here!</button>
         
     </form>
 

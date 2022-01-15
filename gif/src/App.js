@@ -3,10 +3,10 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import axios from 'axios';
 
-import GifCard from './GifCard';
-import SearchField from './SearchField';
+import GifCard from './components/GifCard';
+import SearchField from './components/SearchField';
 
-console.log(process.env.REACT_APP_ASSIGNMENT_6_API_KEY) //gets api using the api key given to us
+//console.log(process.env.REACT_APP_ASSIGNMENT_6_API_KEY) //gets api using the api key given to us
 function App() {
 
   let apikey = "4M5bJT8StuiI6Ut3Nz8PZgaRIcwNQP44";
@@ -20,25 +20,26 @@ function App() {
 
 const { search } = window.location;
 const query = new URLSearchParams(search).get('s');
-const filteredPosts = filterPosts(posts, query);
+//const filteredPosts = filterPosts(posts, query);
 
 const filterPosts = (posts, query) => {
   if (!query) {
       return posts;
   }
-
+  
   return posts.filter((post) => {
       const postName = post.name.toLowerCase();
       return postName.includes(query);
   });
 };
-  
+const filteredPosts = filterPosts(posts, query);
   const [data, setData] = useState([])
 
   const getData = async () =>{
-    await axios.get()
+    await axios.get("https://api.giphy.com/v1/gifs/trending?api_key=4M5bJT8StuiI6Ut3Nz8PZgaRIcwNQP44")
     .then(res=>{
-      setData(res.data)
+      setData(res.data.data)
+      console.log(res.data)
     })
   }
 
@@ -50,8 +51,12 @@ const filterPosts = (posts, query) => {
     getData()
 
 
-  }, [])
+  }, [data]) // continous listen for api, no data, would only run once
 
+
+
+
+  
   return(
     
     
@@ -63,12 +68,13 @@ const filterPosts = (posts, query) => {
       <SearchField/>
       <h3>possible search terms</h3>
       
-      <ul>
+      <div>
+        <GifCard datafromparent = {data}/>
 
                 {filteredPosts.map((post) => (
                     <li key={post.id}>{post.name}</li>
                 ))}
-            </ul>
+            </div>
       
       
     </div>
